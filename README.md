@@ -1,5 +1,7 @@
 # Introducing the ESP8266 OLED Display + Web Server Example
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-gren.svg)](https://opensource.org/licenses/MIT) [![GitHub last commit](https://img.shields.io/github/last-commit/jeanjmichel/ESP8266-OLED-Display-plus-webserver-example.svg?style=flat)]() [![GitHub pull requests](https://img.shields.io/github/issues-pr/jeanjmichel/ESP8266-OLED-Display-plus-webserver-example.svg?style=flat)]() [![Donate](https://img.shields.io/badge/$-support-FE342D.svg?style=flat)](https://ko-fi.com/jeanjmichel)
+
 Hello, my name is Jean. I'm an IT professional with a passion for learning programming and educating others in coding.
 
 I recently purchased an ESP8266 that comes with an integrated OLED display. I was looking for examples to learn how to operate this device and display information on the screen, but all I discovered were videos on YouTube demonstrating the device in action, without any accompanying code.
