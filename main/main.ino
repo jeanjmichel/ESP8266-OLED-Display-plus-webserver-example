@@ -7,7 +7,6 @@
 #include <Arduino.h>
 #include <ESP8266WebServer.h>
 #include "secrets.h"
-#include "HTMLPages.h"
 #include <ESP8266WiFi.h>
 #include <time.h>
 #define TIMEZONE "BRT3"
@@ -30,38 +29,35 @@ void drawWiFiLogo();
 void handleRoot();
 
 void setup() {
+  delay(3000); // Wait for serial monitor to start completely
   Serial.begin(115200);
-  delay(1000); // Wait for serial monitor to start completely
-
+  
   display.init();
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_10);
 
   printToDisplay("Wellcome to ESP8266!", "Initializing the set up.", "It will be fast bro!");
-  delay(2000);
+  delay(3000);
 
   connectToWiFi();
 
   configTime(0, 0, "pool.ntp.org"); // Using external server to get the actual hour
   setenv("TZ", TIMEZONE, 1);
-  /*
-  Serial.println("\nGetting the current hour...");
-  while (!time(nullptr)) {
-    Serial.print(".");
-    delay(1000);
-  }
-  Serial.println("\nReceived the current hour!");
-  */
+
   tzset();
 
-  WiFi.setHostname(HOSTNAME);
+  server.on("/", HTTP_GET, handleRoot);
+  server.enableCORS(true);
+  server.onNotFound([]() {
+    Serial.println("\nPage not found :(");
+    printToDisplay("Page not found :(");
+    server.send(404, "text/html", "Page not found :(");
+    delay(1000);
+  });
 
-  server.on("/", handleRoot);
-  server.begin();
-
-  Serial.println("\nServer is alive!");
-  printToDisplay("Server is alive!");
-  delay(3000);
+  Serial.println("\nSet up finished!");
+  printToDisplay("Set up finished!");
+  delay(1000);
 }
 
 void printToDisplay(const String &line1, const String &line2, const String &line3) {
@@ -89,24 +85,28 @@ void connectToWiFi() {
   delay(1000);
 
   WiFi.begin(ssid, passPhrase);
+  WiFi.setHostname(HOSTNAME);
+ 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
+  
+  server.begin();
   Serial.println("\nConnected!");
+  
   IPAddress IP = WiFi.localIP();
   Serial.print("\nIP: ");
-  Serial.println(IP);
-  
+  Serial.println(IP);  
   snprintf(deviceIP, sizeof(deviceIP), "IP: %s", IP.toString().c_str());
-  printToDisplay("Connected!", deviceIP);
+  printToDisplay("Connected!", deviceIP, WiFi.getHostname());
   
   drawWiFiLogo();
 }
 
 void handleRoot() {
   printToDisplay("Received a request!","Getting the current date...");
+  Serial.println("\nReceived a request! Getting the current date...");
   delay(1000);
 
   time_t now = time(nullptr);
@@ -118,21 +118,23 @@ void handleRoot() {
            timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900,
            timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
 
-  printToDisplay("Received the date!", "Creating HTTP response...");
+  printToDisplay("Data is ok!", "Creating HTTP response...");
+  Serial.println("Data is ok! Creating HTTP response...");
+  
   delay(1000);
 
   String html = "<!DOCTYPE html><html lang='pt-BR'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Node MCU ESP8266 Webserver</title></head><body><p>";
   html += timeStr;
   html += "</p></body></html>";
 
-  server.send(200, "text/html", html);
-
   printToDisplay("HTTP response sent!", "My work finish!");
-  delay(2000);
+  Serial.println("HTTP response sent! My work finish!");
+  server.sendHeader("Cache-Control", "no-cache");
+  //server.send(200, "text/html", html);
+  server.send_P(200, "text/html", html.c_str());
 }
 
 void loop() {
-  printToDisplay("Waiting for requests on", deviceIP);
-  delay(500);
+  printToDisplay("Waiting for requests on", deviceIP, WiFi.getHostname());
   server.handleClient();
 }
