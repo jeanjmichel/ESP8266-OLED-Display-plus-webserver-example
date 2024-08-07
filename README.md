@@ -22,5 +22,7 @@ To implement this code on your device:
     * Load the provided script onto your device and begin using it.
 
 Get in touch, I would be delighted to discuss technology topics with you.
+
 You can find me on LinkedIn at :link: [jeanjmichel](https://www.linkedin.com/in/jeanjmichel/).
+
 Additionally, my blog (currently in Portuguese), is available on Medium at :link: https://jeanjmichel.medium.com.
