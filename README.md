@@ -18,7 +18,7 @@ To implement this code on your device:
 
 - Clone in your computer this repository.
 - In the Arduino IDE:
-    * Input the following URL into the additional board manager URLs: https://arduino.esp8266.com/stable/package_esp8266com_index.json
+    * Input the following URL into the additional board manager URLs in File/Preferences menu option: https://arduino.esp8266.com/stable/package_esp8266com_index.json
     * Utilize the library manager to find and include the “ESP8266 and ESP32 OLED driver for SSD1306 displays” library.
     * Select “NodeMCU 1.0 (ESP-12E Module)” as your target board in the Arduino IDE.
     * Load the provided script onto your device and begin using it.
