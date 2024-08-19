@@ -23,6 +23,10 @@ To implement this code on your device:
     * Select (Tools/Board menu option) “NodeMCU 1.0 (ESP-12E Module)” as your target board in the Arduino IDE.
     * Load the provided script onto your device and begin using it.
 
+Here a video on YouTube where I demonstrate the code working:
+
+[![YouTube demonstrate of the code running](https://img.youtube.com/vi/K2k95v9RGD0/0.jpg)](https://www.youtube.com/watch?v=K2k95v9RGD0)
+
 Get in touch, I would be delighted to discuss technology topics with you.
 
 You can find me on LinkedIn at :link: [jeanjmichel](https://www.linkedin.com/in/jeanjmichel/).
